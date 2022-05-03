@@ -10,6 +10,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// JSONからRenderに変える
+
 // メソッドの上書き
 func MethodOverride(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {

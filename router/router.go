@@ -12,6 +12,7 @@ func Init() {
 
 
 	e := echo.New()
+	e.Use(middleware.CORS())
 	e.Pre(controller.MethodOverride)
 
 	e.Use(middleware.Logger())
