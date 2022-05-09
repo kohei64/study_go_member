@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"go-member/model"
-	"go-member/data"
 
 	"github.com/labstack/echo"
 	"golang.org/x/crypto/bcrypt"
@@ -28,7 +27,7 @@ func MethodOverride(next echo.HandlerFunc) echo.HandlerFunc {
 
 // ユーザー全取得
 func GetUsers(c echo.Context) error {
-	users := []data.User{}
+	users := []model.User{}
 	model.DB.Find(&users)
 
 	return c.JSON(http.StatusOK, users)
@@ -38,7 +37,7 @@ func GetUsers(c echo.Context) error {
 func GetUser(c echo.Context) error {
 	i, _ := strconv.Atoi(c.Param("id"))
 	id := uint(i)
-	user := data.User{}
+	user := model.User{}
 	user.FirstById(id)
 
 	return c.JSON(http.StatusOK, user)
@@ -53,7 +52,7 @@ func CreateUser(c echo.Context) error {
 	belongs := c.FormValue("belongs")
 	skills := c.FormValue("skills")
 
-	user := data.User{
+	user := model.User{
 		Name:     name,
 		Password: password,
 		Belongs:  belongs,
@@ -75,7 +74,7 @@ func UpdateUser(c echo.Context) error {
 	belongs := c.FormValue("belongs")
 	skills := c.FormValue("skills")
 
-	user := data.User{
+	user := model.User{
 		ID:       id,
 		Name:     name,
 		Password: password,
@@ -91,7 +90,7 @@ func UpdateUser(c echo.Context) error {
 func DeleteUser(c echo.Context) error {
 	i, _ := strconv.Atoi(c.Param("id"))
 	id := uint(i)
-	user := data.User{}
+	user := model.User{}
 	user.DeleteById(id)
 
 	return c.JSON(http.StatusFound, user)
