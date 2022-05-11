@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  go:
+    container_name: go
+    build:
+      context: ./golang
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    volumes:
+      - type: bind
+        source: ./golang/src
+        target: /go/src
+
+
+  db:
+    image: mysql
+    restart: always
+    volumes:
+    # mysqlのパスがわからない
+      - ./tmp/db:/var/lib/mysql/data
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: go_sample
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: Mmky1031!
+      TZ: 'Asia/Tokyo'
