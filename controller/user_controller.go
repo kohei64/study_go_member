@@ -10,8 +10,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// JSONからRenderに変える
-
 // メソッドの上書き
 func MethodOverride(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -38,7 +36,7 @@ func GetUser(c echo.Context) error {
 	i, _ := strconv.Atoi(c.Param("id"))
 	id := uint(i)
 	user := model.User{}
-	user.FirstById(id)
+	model.DB.Where("id = ?", id).First(user)
 
 	return c.JSON(http.StatusOK, user)
 }

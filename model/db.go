@@ -11,7 +11,6 @@ var DB *gorm.DB
 var err error
 
 // データベース接続
-// mysqlのパスワード見えてていいのかな？
 func init() {
 	dsn := "root:Mmky1031!@tcp(127.0.0.1:3306)/go_sample?charset=utf8mb4&parseTime=True&loc=Local"
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
