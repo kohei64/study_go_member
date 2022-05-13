@@ -36,32 +36,45 @@ func GetUser(c echo.Context) error {
 	i, _ := strconv.Atoi(c.Param("id"))
 	id := uint(i)
 	user := model.User{}
-	model.DB.Where("id = ?", id).First(user)
+	model.DB.Where("id = ?", id).First(&user)
 
 	return c.JSON(http.StatusOK, user)
 }
 
 // ユーザー作成
+// func CreateUser(c echo.Context) error {
+// 	name := c.FormValue("name")
+// 	p := c.FormValue("password")
+// 	hashed, _ := bcrypt.GenerateFromPassword([]byte(p), 12)
+// 	password := string(hashed)
+// 	belongs := c.FormValue("belongs")
+// 	skills := c.FormValue("skills")
+
+// 	user := model.User{
+// 		Name:     name,
+// 		Password: password,
+// 		Belongs:  belongs,
+// 		Skills:   skills,
+// 	}
+// 	user.Create()
+
+// 	return c.JSON(http.StatusOK,user)
+// }
+
+// まだdata入らない
 func CreateUser(c echo.Context) error {
-	name := c.FormValue("name")
-	p := c.FormValue("password")
-	hashed, _ := bcrypt.GenerateFromPassword([]byte(p), 12)
-	password := string(hashed)
-	belongs := c.FormValue("belongs")
-	skills := c.FormValue("skills")
-
-	user := model.User{
-		Name:     name,
-		Password: password,
-		Belongs:  belongs,
-		Skills:   skills,
+	u := new(model.User)
+	// var u model.User 上との違いは？
+	if err := c.Bind(&u); err != nil {
+		return err
 	}
-	user.Create()
-
-	return c.JSON(http.StatusOK,user)
+	//todo:validation追加
+	model.DB.Create(&u)
+	return c.JSON(http.StatusOK, u)
 }
 
 // ユーザー編集
+// Bindにする
 func UpdateUser(c echo.Context) error {
 	i, _ := strconv.Atoi(c.Param("id"))
 	id := uint(i)
@@ -81,7 +94,7 @@ func UpdateUser(c echo.Context) error {
 	}
 	user.Updates()
 
-	return c.JSON(http.StatusFound,user)
+	return c.JSON(http.StatusFound, user)
 }
 
 // ユーザー削除
@@ -89,7 +102,7 @@ func DeleteUser(c echo.Context) error {
 	i, _ := strconv.Atoi(c.Param("id"))
 	id := uint(i)
 	user := model.User{}
-	user.DeleteById(id)
+	model.DB.Where("id=?", id).Delete(&user)
 
 	return c.JSON(http.StatusFound, user)
 }
