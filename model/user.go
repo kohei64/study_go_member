@@ -12,17 +12,13 @@ type User struct {
 	Skills   string `json:"skills"`
 }
 
-// controllerで使うメソッド
+// controllerで使うメソッド--使わない予定
 func (u *User) FirstById(id uint) (tx *gorm.DB) {
 	return DB.Where("id = ?", id).First(&u)
 }
 
 func (u *User) Create() (tx *gorm.DB) {
 	return DB.Create(&u)
-}
-
-func (u *User) Save() (tx *gorm.DB) {
-	return DB.Save(&u)
 }
 
 func (u *User) Updates() (tx *gorm.DB) {
