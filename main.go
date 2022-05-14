@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-member/router"
+	"study_go_member/router"
 )
 
 

@@ -4,7 +4,7 @@ import (
 	"time"
 	"net/http"
 
-	"go-member/model"
+	"study_go_member/model"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
