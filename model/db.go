@@ -17,4 +17,5 @@ func init() {
 	if err != nil {
 		fmt.Println("database can't connect")
 	}
+	DB.Migrator().CreateTable(&User{})
 }
