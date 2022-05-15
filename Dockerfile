@@ -1,6 +1,4 @@
-# as○○とは
-# alpineとは
-FROM golang:1.18.1
+FROM golang:1.18.1-alpine
 
 ENV ROOT=/go/src
 ENV CGO_ENABLED=0
