@@ -5,14 +5,14 @@ import (
 )
 
 type User struct {
-	ID       uint   `json:"id" param:"id"`
-	Name     string `json:"name"`
-	Password string `json:"password"`
-	Belongs  string `json:"belongs"`
-	Skills   string `json:"skills"`
+	ID       uint   `json:"id"`
+	Name     string `json:"name" gorm:"type:varchar(30);not null"`
+	Password string `json:"password" gorm:"not null"`
+	Belongs  string `json:"belongs" gorm:"type:varchar(100);not null"`
+	Skills   string `json:"skills" gorm:"type:varchar(200);not null"`
 }
 
-// controllerで使うメソッド--使わない予定
+// controllerで使うメソッド
 func (u *User) FirstById(id uint) (tx *gorm.DB) {
 	return DB.Where("id = ?", id).First(&u)
 }
