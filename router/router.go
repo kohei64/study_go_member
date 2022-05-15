@@ -1,7 +1,7 @@
 package router
 
 import (
-	
+	"net/http"
 	"study_go_member/controller"
 
 	"github.com/labstack/echo"
@@ -30,6 +30,10 @@ func Init() {
 	// e.PUT("/user/:id", controller.UpdateUser) //ユーザー編集
 	// e.DELETE("/user/:id", controller.DeleteUser) //ユーザー削除
 
-	e.Logger.Fatal(e.Start("localhost:8080"))
+	e.GET("/health",func(c echo.Context) error {
+		return c.String(http.StatusOK, "health ok")
+	})
+
+	e.Logger.Fatal(e.Start(":8080"))
 }
 

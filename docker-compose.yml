@@ -1,34 +1,28 @@
 version: '3'
 
 services:
-  go:
-    container_name: go
+  app:
+    container_name: study_go_member_app
     build:
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - docker-compose.env
     tty: true
     ports:
       - 8080:8080
     depends_on:
       - db
     volumes:
-      - type: bind
-        source: .
-        target: /go/src
-
+      - .:/go/src
 
   db:
-    container_name: db
-    # platform: linux/x86_64
+    container_name: study_go_member_db
     image: mysql:5.7
     restart: always
     volumes:
       - ./tmp/db:/var/lib/mysql
     ports:
       - 5432:5432
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: study_go_member
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: ${PASSWORD}
-      TZ: 'Asia/Tokyo'
+    env_file:
+      - docker-compose.env
