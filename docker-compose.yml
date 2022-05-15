@@ -28,7 +28,7 @@ services:
       - 5432:5432
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: go_sample
+      MYSQL_DATABASE: study_go_member
       MYSQL_USER: docker
-      MYSQL_PASSWORD: Mmky1031!
+      MYSQL_PASSWORD: ${PASSWORD}
       TZ: 'Asia/Tokyo'
