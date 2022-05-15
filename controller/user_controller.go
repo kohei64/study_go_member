@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"go-member/model"
+	"study_go_member/model"
 
 	"github.com/labstack/echo"
 	"golang.org/x/crypto/bcrypt"
