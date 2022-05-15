@@ -13,13 +13,14 @@ services:
       - db
     volumes:
       - type: bind
-        source: ./go/src
+        source: .
         target: /go/src
 
 
   db:
     container_name: db
-    image: mysql:latest
+    platform: linux/x86_64
+    image: mysql:5.7
     restart: always
     volumes:
       - ./tmp/db:/var/lib/mysql
