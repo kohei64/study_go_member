@@ -4,7 +4,6 @@ go 1.18
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/joho/godotenv v1.4.0
 	github.com/labstack/echo v3.3.10+incompatible
 	golang.org/x/crypto v0.0.0-20220513210258-46612604a0f9
 	gorm.io/driver/mysql v1.3.3
