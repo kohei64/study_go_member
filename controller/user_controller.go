@@ -7,7 +7,7 @@ import (
 	"study_go_member/model"
 
 	"github.com/labstack/echo"
-	"golang.org/x/crypto/bcrypt"
+	// "golang.org/x/crypto/bcrypt"
 )
 
 // メソッドの上書き
@@ -41,65 +41,34 @@ func GetUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
-// ユーザー作成
-// func CreateUser(c echo.Context) error {
-// 	name := c.FormValue("name")
-// 	p := c.FormValue("password")
-// 	hashed, _ := bcrypt.GenerateFromPassword([]byte(p), 12)
-// 	password := string(hashed)
-// 	belongs := c.FormValue("belongs")
-// 	skills := c.FormValue("skills")
-
-// 	user := model.User{
-// 		Name:     name,
-// 		Password: password,
-// 		Belongs:  belongs,
-// 		Skills:   skills,
-// 	}
-// 	user.Create()
-
-// 	return c.JSON(http.StatusOK,user)
-// }
-
-// まだdata入らない
+//ユーザー作成
 func CreateUser(c echo.Context) error {
 	u := new(model.User)
-	// var u model.User 上との違いは？
 	if err := c.Bind(&u); err != nil {
 		return err
 	}
+	//todo:password hash化する
 	//todo:validation追加
 	model.DB.Create(&u)
+
 	return c.JSON(http.StatusOK, u)
 }
 
 // ユーザー編集
-// Bindにする
 func UpdateUser(c echo.Context) error {
-	i, _ := strconv.Atoi(c.Param("id"))
-	id := uint(i)
-	name := c.FormValue("name")
-	p := c.FormValue("password")
-	hashed, _ := bcrypt.GenerateFromPassword([]byte(p), 12)
-	password := string(hashed)
-	belongs := c.FormValue("belongs")
-	skills := c.FormValue("skills")
-
-	user := model.User{
-		ID:       id,
-		Name:     name,
-		Password: password,
-		Belongs:  belongs,
-		Skills:   skills,
+	// u:=new(model.User)
+	var u model.User
+	if err:=c.Bind(&u); err!=nil{
+		return err
 	}
-	user.Updates()
+	model.DB.Updates(&u)
 
-	return c.JSON(http.StatusFound, user)
+	return c.JSON(http.StatusFound, u)
 }
 
 // ユーザー削除
 func DeleteUser(c echo.Context) error {
-	i, _ := strconv.Atoi(c.Param("id"))
+	i,_ := strconv.Atoi(c.Param("id"))
 	id := uint(i)
 	user := model.User{}
 	model.DB.Where("id=?", id).Delete(&user)
