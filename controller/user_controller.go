@@ -15,7 +15,7 @@ func MethodOverride(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		if c.Request().Method == "POST" {
 			method := c.Request().PostFormValue("_method")
-			if method == "PUT" || method == "DELETE" {
+			if method == "PUT" || method == "PATCH" || method == "DELETE" {
 				c.Request().Method = method
 			}
 		}
@@ -56,8 +56,7 @@ func CreateUser(c echo.Context) error {
 
 // ユーザー編集
 func UpdateUser(c echo.Context) error {
-	// u:=new(model.User)
-	var u model.User
+	u := new(model.User)
 	if err:=c.Bind(&u); err!=nil{
 		return err
 	}
