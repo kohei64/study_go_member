@@ -56,13 +56,16 @@ func CreateUser(c echo.Context) error {
 
 // ユーザー編集
 func UpdateUser(c echo.Context) error {
+	i, _ := strconv.Atoi(c.Param("id"))
+	id := uint(i)
 	u := new(model.User)
 	if err:=c.Bind(&u); err!=nil{
 		return err
 	}
+	u.ID = id
 	model.DB.Updates(&u)
 
-	return c.JSON(http.StatusFound, u)
+	return c.JSON(http.StatusOK, u)
 }
 
 // ユーザー削除
@@ -72,5 +75,5 @@ func DeleteUser(c echo.Context) error {
 	user := model.User{}
 	model.DB.Where("id=?", id).Delete(&user)
 
-	return c.JSON(http.StatusFound, user)
+	return c.JSON(http.StatusOK, user)
 }
