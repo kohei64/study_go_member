@@ -9,7 +9,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	// "golang.org/x/crypto/bcrypt"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type jwtCustomClaims struct{
@@ -27,15 +27,15 @@ var Config=middleware.JWTConfig{
 
 func Login(c echo.Context) error {
 	name:=c.FormValue("name")
-	// password:=c.FormValue("password")
+	password:=c.FormValue("password")
 
 	user:=model.User{}
 	model.DB.Where("name=?",name).First(&user)
 
-	// err:=bcrypt.CompareHashAndPassword([]byte(user.Password),[]byte(password))
-	// if err!=nil{
-	// 	return echo.ErrUnauthorized
-	// }
+	err:=bcrypt.CompareHashAndPassword([]byte(user.Password),[]byte(password))
+	if err!=nil{
+		return echo.ErrUnauthorized
+	}
 
 	claims:=&jwtCustomClaims{
 		user.ID,
