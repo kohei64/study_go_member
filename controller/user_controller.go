@@ -7,7 +7,6 @@ import (
 	"study_go_member/model"
 
 	"github.com/labstack/echo"
-	// "golang.org/x/crypto/bcrypt"
 )
 
 // メソッドの上書き
@@ -47,7 +46,6 @@ func CreateUser(c echo.Context) error {
 	if err := c.Bind(&u); err != nil {
 		return err
 	}
-	//todo:password hash化する
 	//todo:validation追加
 	model.DB.Create(&u)
 
