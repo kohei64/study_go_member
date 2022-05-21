@@ -27,7 +27,7 @@ func init() {
     for i := 0; i < 10; i++ {
         DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
         if err == nil {
-						DB.AutoMigrate(&User{})
+            DB.AutoMigrate(&User{})
             fmt.Printf(os.Getenv("DATABASE_URL") + "### connect.\n")
             break
         }
