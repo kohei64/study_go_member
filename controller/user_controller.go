@@ -7,7 +7,7 @@ import (
 	"study_go_member/model"
 
 	"github.com/labstack/echo"
-	// "golang.org/x/crypto/bcrypt"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // メソッドの上書き
@@ -47,28 +47,14 @@ func CreateUser(c echo.Context) error {
 	if err := c.Bind(&u); err != nil {
 		return err
 	}
+	hashed, _ := bcrypt.GenerateFromPassword([]byte(u.Password), 12)
+	u.Password = string(hashed)
+	
 	//todo:validation追加
 	model.DB.Create(&u)
 
 	return c.JSON(http.StatusOK, u)
 }
-
-// サインアップ
-// func CreateUser(c echo.Context) error {
-// 	name := c.FormValue("name")
-	// p := c.FormValue("password")
-	// hashed, _ := bcrypt.GenerateFromPassword([]byte(p), 12)
-	// password := string(hashed)
-
-// 	user := model.User{
-// 		Name:     name,
-// 		Password: password,
-// 	}
-
-// 	model.DB.Create(&user)
-
-// 	return c.JSON(http.StatusOK, user)
-// }
 
 // ユーザー編集
 func UpdateUser(c echo.Context) error {
