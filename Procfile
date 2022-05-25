@@ -1,1 +1,1 @@
-web: bin/study-go-member
+web: bin/study_go_member
