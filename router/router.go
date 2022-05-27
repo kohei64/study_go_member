@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"os"
 	"study_go_member/controller"
 
 	"github.com/labstack/echo"
@@ -34,6 +35,7 @@ func Init() {
 		return c.String(http.StatusOK, "health ok")
 	})
 
-	e.Logger.Fatal(e.Start(":8080"))
+	// herokuではportを設定してはだめなのか
+	e.Logger.Fatal(e.Start(":"+os.Getenv("PORT")))
 }
 
