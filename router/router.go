@@ -37,5 +37,6 @@ func Init() {
 
 	// herokuではportを設定してはだめなのか
 	e.Logger.Fatal(e.Start(":"+os.Getenv("PORT")))
+	// e.Logger.Fatal(e.Start(":8080"))
 }
 
