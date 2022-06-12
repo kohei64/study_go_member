@@ -26,15 +26,16 @@ var Config=middleware.JWTConfig{
 }
 
 func Login(c echo.Context) error {
-	name:=c.FormValue("name")
-	password:=c.FormValue("password")
-
+	u := new(model.User)
+	if err := c.Bind(&u); err != nil {
+		return err
+	}
 	user:=model.User{}
-	model.DB.Where("name=?",name).First(&user)
+	model.DB.Where("name=?",u.Name).First(&user)
 
-	err:=bcrypt.CompareHashAndPassword([]byte(user.Password),[]byte(password))
+	err:=bcrypt.CompareHashAndPassword([]byte(user.Password),[]byte(u.Password))
 	if err!=nil{
-		return echo.ErrUnauthorized
+		return c.JSON(http.StatusOK,err)
 	}
 
 	claims:=&jwtCustomClaims{
@@ -54,14 +55,14 @@ func Login(c echo.Context) error {
 
 	return c.JSON(http.StatusOK,echo.Map{
 		"token":t,
+		"id": user.ID,
 	})
 }
 
+//
 func Restricted(c echo.Context) error {
 	user:=c.Get("user").(*jwt.Token)
 	claims:=user.Claims.(*jwtCustomClaims)
 	name:=claims.Name
-	return c.JSON(http.StatusOK,echo.Map{
-		"name":name,
-	})
+	return c.String(http.StatusOK,"welcome"+name)
 }
