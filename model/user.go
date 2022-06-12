@@ -6,7 +6,7 @@ import (
 
 type User struct {
 	ID       uint   `json:"id" param:"id"`
-	Name     string `json:"name" gorm:"type:varchar(30);not null"`
+	Name     string `json:"name" gorm:"unique;type:varchar(30);not null"`
 	Password string `json:"password" gorm:"not null"`
 	Belongs  string `json:"belongs" gorm:"type:varchar(100);not null;default:none"`
 	Skills   string `json:"skills" gorm:"type:varchar(200);not null;default:none"`
