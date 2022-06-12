@@ -2,7 +2,7 @@ package router
 
 import (
 	"net/http"
-	"os"
+	// "os"
 	"study_go_member/controller"
 
 	"github.com/labstack/echo"
@@ -13,7 +13,12 @@ func Init() {
 
 
 	e := echo.New()
-	e.Use(middleware.CORS())
+	// e.Use(middleware.CORS())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
+	}))
+
 	e.Pre(controller.MethodOverride)
 
 	e.Use(middleware.Logger())
@@ -24,10 +29,11 @@ func Init() {
 
 	r:=e.Group("/restricted")
 	r.Use(middleware.JWTWithConfig(controller.Config))
-	
+
+	e.POST("/user", controller.CreateUser) //サインアップ&ユーザー作成
+	e.POST("/login",controller.Login)//ログイン
 	e.GET("/users",controller.GetUsers) //全ユーザー取得
 	e.GET("/user/:id", controller.GetUser) //ユーザー取得
-	e.POST("/user", controller.CreateUser) //ユーザー作成
 	e.PUT("/user/:id", controller.UpdateUser) //ユーザー編集
 	e.DELETE("/user/:id", controller.DeleteUser) //ユーザー削除
 
@@ -35,8 +41,7 @@ func Init() {
 		return c.String(http.StatusOK, "health ok")
 	})
 
-	// herokuではportを設定してはだめなのか
-	e.Logger.Fatal(e.Start(":"+os.Getenv("PORT")))
-	// e.Logger.Fatal(e.Start(":8080"))
+	// e.Logger.Fatal(e.Start(":"+os.Getenv("PORT")))
+	e.Logger.Fatal(e.Start(":8080"))
 }
 
