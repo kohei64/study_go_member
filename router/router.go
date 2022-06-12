@@ -2,7 +2,7 @@ package router
 
 import (
 	"net/http"
-	// "os"
+	"os"
 	"study_go_member/controller"
 
 	"github.com/labstack/echo"
@@ -41,7 +41,7 @@ func Init() {
 		return c.String(http.StatusOK, "health ok")
 	})
 
-	// e.Logger.Fatal(e.Start(":"+os.Getenv("PORT")))
-	e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(":"+os.Getenv("PORT")))
+	// e.Logger.Fatal(e.Start(":8080"))
 }
 
